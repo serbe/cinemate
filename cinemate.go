@@ -18,8 +18,8 @@ type API struct {
 
 // Response from  api.cinemate.cc
 type Response struct {
-	Movie  []Movie  `xml:"movie"`
-	Person []Person `xml:"person"`
+	Movie  []Movie  `xml:"movie,omitempty"`
+	Person []Person `xml:"person,omitempty"`
 }
 
 // Movie is responce movie api from server. Now parse only xml
@@ -46,25 +46,25 @@ type Response struct {
 // cast	список актеров фильма, представленный списком тегов name с русским именами актеров и ID персоны
 // url	ссылка на страницу фильма
 type Movie struct {
-	ID                int      `xml:"id"`
-	Type              string   `xml:"type"`
+	ID                int      `xml:"id,omitempty"`
+	Type              string   `xml:"type,omitempty"`
 	TitleRussian      string   `xml:"title_russian"`
 	TitleOriginal     string   `xml:"title_original"`
-	TitleEnglish      string   `xml:"title_english"`
-	Year              int      `xml:"year"`
-	Runtime           int      `xml:"runtime"`
-	Poster            image    `xml:"poster"`
-	URL               string   `xml:"url"`
-	Imdb              rating   `xml:"imdb"`
-	Kinopoisk         rating   `xml:"kinopoisk"`
+	TitleEnglish      string   `xml:"title_english,omitempty"`
+	Year              int      `xml:"year,omitempty"`
+	Runtime           int      `xml:"runtime,omitempty"`
+	Poster            image    `xml:"poster,omitempty"`
+	URL               string   `xml:"url,omitempty"`
+	Imdb              rating   `xml:"imdb,omitempty"`
+	Kinopoisk         rating   `xml:"kinopoisk,omitempty"`
 	Country           country  `xml:"country"`
 	Genre             genre    `xml:"genre"`
-	Description       string   `xml:"description"`
-	Trailer           string   `xml:"trailer"`
-	ReleaseDateWorld  string   `xml:"release_date_world"`
-	ReleaseDateRussia string   `xml:"release_date_russia"`
-	Director          Person   `xml:"director>person"`
-	Cast              []Person `xml:"cast>person"`
+	Description       string   `xml:"description,omitempty"`
+	Trailer           string   `xml:"trailer,omitempty"`
+	ReleaseDateWorld  string   `xml:"release_date_world,omitempty"`
+	ReleaseDateRussia string   `xml:"release_date_russia,omitempty"`
+	Director          Person   `xml:"director>person,omitempty"`
+	Cast              []Person `xml:"cast>person,omitempty"`
 }
 
 type image struct {
@@ -83,11 +83,11 @@ type rating struct {
 }
 
 type country struct {
-	Name []string `xml:"name"`
+	Name []string `xml:"name,omitempty"`
 }
 
 type genre struct {
-	Name []string `xml:"name"`
+	Name []string `xml:"name,omitempty"`
 }
 
 // Person is responce person api from server. Now parse only xml
@@ -97,12 +97,17 @@ type genre struct {
 // photo	включает в себя 3 тега со ссылками на фотографии разных размеров
 // url	ссылка на страницу персоны
 type Person struct {
-	ID           int    `xml:"id"`
-	Name         string `xml:"name"`
-	NameOriginal string `xml:"name_original"`
-	Photo        image  `xml:"photo"`
-	URL          string `xml:"url"`
-	/// 
+	ID           int          `xml:"id,omitempty"`
+	Name         string       `xml:"name,omitempty"`
+	NameOriginal string       `xml:"name_original,omitempty"`
+	Photo        image        `xml:"photo,omitempty"`
+	URL          string       `xml:"url,omitempty"`
+	Movies       personMovies `xml:"movies,omitempty"`
+}
+
+type personMovies struct {
+	Director []Movie `xml:"director>movie,omitempty"`
+	Actor    []Movie `xml:"actor>movie,omitempty"`
 }
 
 // CCRequest struct for make search request

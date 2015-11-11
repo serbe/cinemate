@@ -2,6 +2,7 @@ package cinemate
 
 import (
 	"encoding/xml"
+	"fmt"
 	"net/url"
 	"strconv"
 	"time"
@@ -29,12 +30,11 @@ func (ccc *API) GetPerson(id int) ([]Person, error) {
 		return []Person{}, err
 	}
 	err = xml.Unmarshal(xmlBody, &result)
-
 	return result.Person, err
 }
 
-// GetPersonMovies Информация о персоне, включая фильмы, в съемке которых персона 
-// принимала участие в качестве актера или режиссера. Основная информация о 
+// GetPersonMovies Информация о персоне, включая фильмы, в съемке которых персона
+// принимала участие в качестве актера или режиссера. Основная информация о
 // персоне идентична команде person.
 // example: http://api.cinemate.cc/person.movies?id=3971&apikey=APIKEY&format=xml
 // apikey	ключ разработчика
@@ -52,12 +52,12 @@ func (ccc *API) GetPersonMovies(id int) ([]Person, error) {
 	q.Set("id", strconv.Itoa(id))
 	q.Set("format", "xml")
 	u.RawQuery = q.Encode()
+	fmt.Println(u.String())
 	xmlBody, err := getXML(u.String())
 	if err != nil {
 		return []Person{}, err
 	}
 	err = xml.Unmarshal(xmlBody, &result)
-
 	return result.Person, err
 }
 
@@ -72,7 +72,7 @@ func (ccc *API) GetPersonSearch(term string) ([]Person, error) {
 	var u url.URL
 	u.Scheme = "http"
 	u.Host = "api.cinemate.cc"
-	u.Path = "/movie.search"
+	u.Path = "/person.search"
 	q := u.Query()
 	q.Set("apikey", ccc.apikey)
 	q.Set("term", term)

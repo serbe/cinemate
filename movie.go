@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// GetMovie get movie info from cinemate.cc by movie id
+// GetMovie Информация о фильме
 // example: http://api.cinemate.cc/movie?apikey=APIKEY&id=68675&format=xml
 // apikey	ключ разработчика
 // id	ID фильма
@@ -33,7 +33,7 @@ func (ccc *API) GetMovie(id int) ([]Movie, error) {
 	return result.Movie, err
 }
 
-// GetMovieList get movie list from cinemate.cc by filter
+// GetMovieList Результаты поиска фильмов, используя заданные фильтры. Возвращается 10 первых фильмов.
 // example: http://api.cinemate.cc/movie.list?apikey=APIKEY&year=2010&format=xml
 // apikey	ключ разработчика
 // type	тип фильмов. Возможные значения: movie, serial, short
@@ -105,7 +105,7 @@ func (ccc *API) GetMovieList(ccr CCRequest) ([]Movie, error) {
 	return result.Movie, err
 }
 
-// GetMovieSearch get movie list from cinemate.cc by filter
+// GetMovieSearch Поиск по заголовкам фильмов
 // example: http://api.cinemate.cc/movie.search?apikey=APIKEY&term=Пираты%20кариб&format=xml
 // apikey	ключ разработчика
 // term	искомая строка; поддерживается уточняющий поиск по году выхода фильма (год должен быть указан в конце искомой строки, например, "Пираты кариб 2003") и коррекцию ошибок при печати
