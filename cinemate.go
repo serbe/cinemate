@@ -16,35 +16,35 @@ type API struct {
 	apikey string
 }
 
-// Response from  api.cinemate.cc
-type Response struct {
-	Movie  []Movie  `xml:"movie,omitempty"`
-	Person []Person `xml:"person,omitempty"`
+// Response from api.cinemate.cc
+type APIResponse struct {
+	Movies  []Movie  `xml:"movie,omitempty"`
+	Persons []Person `xml:"person,omitempty"`
 }
 
 // Movie is responce movie api from server. Now parse only xml
-// id	ID фильма
-// type	Тип фильма
-// title_russian	русскоязычное название фильма
-// title_original	название фильма в оригинале
-// title_english	англоязычное название фильма
-// year	год выхода фильма
-// poster	включает в себя 3 тега со ссылками на постеры разных размеров
-// description	описание фильма
-// runtime	длительность фильма в минутах
-// release_date_world	дата выхода фильма в мире в ISO формате
-// release_date_russia	дата выхода фильма в России в ISO формате
+// id                  ID фильма
+// type                Тип фильма
+// title_russian       русскоязычное название фильма
+// title_original      название фильма в оригинале
+// title_english       англоязычное название фильма
+// year                год выхода фильма
+// poster              включает в себя 3 тега со ссылками на постеры разных размеров
+// description         описание фильма
+// runtime             длительность фильма в минутах
+// release_date_world  дата выхода фильма в мире в ISO формате
+// release_date_russia дата выхода фильма в России в ISO формате
 // imdb	рейтинг фильма по версии imdb.com со следующими атрибутами:
-// rating	рейтинг фильма по 10-балльной шкале
-// votes	число голосов за фильм
-// kinopoisk	рейтинг фильма по версии kinopoisk.ru со следующими атрибутами:
-// rating	рейтинг фильма по 10-балльной шкале
-// votes	число голосов за фильм
-// country	список стран-создателей фильма, представленный списком тегов name с русским названием стран
-// genre	список жанров фильма, представленный списком тегов name с русским названием жанров
-// director	список режиссеров фильма, представленный списком тегов name с русским именами режиссеров и ID персоны
-// cast	список актеров фильма, представленный списком тегов name с русским именами актеров и ID персоны
-// url	ссылка на страницу фильма
+// rating              рейтинг фильма по 10-балльной шкале
+// votes               число голосов за фильм
+// kinopoisk           рейтинг фильма по версии kinopoisk.ru со следующими атрибутами:
+// rating              рейтинг фильма по 10-балльной шкале
+// votes               число голосов за фильм
+// country             список стран-создателей фильма, представленный списком тегов name с русским названием стран
+// genre               список жанров фильма, представленный списком тегов name с русским названием жанров
+// director            список режиссеров фильма, представленный списком тегов name с русским именами режиссеров и ID персоны
+// cast                список актеров фильма, представленный списком тегов name с русским именами актеров и ID персоны
+// url                 ссылка на страницу фильма
 type Movie struct {
 	ID                int      `xml:"id,omitempty"`
 	Type              string   `xml:"type,omitempty"`
@@ -91,11 +91,11 @@ type genre struct {
 }
 
 // Person is responce person api from server. Now parse only xml
-// id	ID персоны
-// name	русскоязычное имя персоны
-// name_original	имя персоны в оригинале
-// photo	включает в себя 3 тега со ссылками на фотографии разных размеров
-// url	ссылка на страницу персоны
+// id            ID персоны
+// name          русскоязычное имя персоны
+// name_original имя персоны в оригинале
+// photo         включает в себя 3 тега со ссылками на фотографии разных размеров
+// url           ссылка на страницу персоны
 type Person struct {
 	ID           int          `xml:"id,omitempty"`
 	Name         string       `xml:"name,omitempty"`
@@ -128,9 +128,109 @@ type CCRequest struct {
 	Format  string
 }
 
+// Account with passkey for access to account
+type Account struct {
+	passkey string
+}
+
+// AccountResponse is response account api from server
+// username                логин пользователя
+// reputation              репутация пользователя
+// review_count            количество отзывов
+// gold_badges             число золотых наград
+// silver_badges           число серебряных наград
+// bronze_badges           число бронзовых наград
+// unread_pm_count         число непрочитанных личных сообщений
+// unread_forum_count      число новых сообщений и/или тем на форуме в отслеживаемых темах и разделах
+// unread_updatelist_count число новых записей в ленте обновлений
+// subscription_count      общее число подписок в ленте обновлений
+type AccountProfile struct {
+	Username              string `xml:"username"`
+	Reputation            int    `xml:"reputation"`
+	ReviewCount           int    `xml:"review_count"`
+	GoldBadges            int    `xml:"gold_badges"`
+	SilverBadges          int    `xml:"silver_badges"`
+	BronzeBadges          int    `xml:"bronze_badges"`
+	UnreadPmCount         int    `xml:"unread_pm_count"`
+	UnreadForumCount      int    `xml:"unread_forum_count"`
+	UnreadUpdatelistCount int    `xml:"unread_updatelist_count"`
+	SubscriptionCount     int    `xml:"subscription_count"`
+}
+
+// UpdateList Записи ленты обновлений пользователя
+// count число всех записей в ленте обновлений (новый)
+// item  запись ленты обновлений
+type UpdateList struct {
+	Count int              `xml:"count"`
+	Items []updateListItem `xml:"item"`
+}
+
+// ListItem запись ленты обновлений
+// date	дата и время добавления записи в ленту обновлений пользователя в ISO формате
+// description	текстовое описание обновления
+// url	ссылка на обновление; переход по ссылке отмечает запись в ленте прочитанной и производит редирект на страницу с обновлением
+// new	флаг прочитанного обновления (1 - непрочтенное, 0 - прочтенное)
+// for_object	список объектов object, список объектов movie, person или comment, к которым привязано обновление
+type updateListItem struct {
+	Date        string           `xml:"date"`
+	Description string           `xml:"description"`
+	URL         string           `xml:"url"`
+	New         int              `xml:"new"`
+	ForObject   updateListObject `xml:"for_object"`
+}
+
+type updateListObject struct {
+	Movie   updateListItemObject `xml:"movie,omitempty"`
+	Person  updateListItemObject `xml:"person,omitempty"`
+	Comment updateListItemObject `xml:"comment,omitempty"`
+}
+
+// title	строковое представление объекта
+// url	ссылка на объект обновления
+type updateListItemObject struct {
+	ID    int    `xml:"id"`
+	Title string `xml:"title"`
+}
+
+// WatchList список объектов слежения пользователя
+// Каждый узел представляет собой объект слежения одного из типов: movie, person или comment
+type WatchList struct {
+	Comments []watchListObject `xml:"comment"`
+	Persons  []watchListObject `xml:"person"`
+	Movies   []watchListObject `xml:"movie"`
+}
+
+// date	дата и время добавления объекта в список слежения в ISO формате
+// name	строковое представление объекта слежения
+// description	описание подписки на объект
+// url	ссылка на объект слежения
+type watchListObject struct {
+	Date        string `xml:"date"`
+	Name        string `xml:"name"`
+	Description string `xml:"description"`
+	URL         string `xml:"url"`
+}
+
+// Stats статистика сайта за последние сутки
+// users_count    число новых пользователей
+// reviews_count  число новых отзывов
+// comments_count число новых комментариев к отзывам
+// movies_count   число новых фильмов
+type Stats struct {
+	UsersCount    int `xml:"users_count"`
+	ReviewsCount  int `xml:"reviews_count"`
+	CommentsCount int `xml:"comments_count"`
+	MoviesCount   int `xml:"movies_count"`
+}
+
 // Init CinemaCC to set API value
 func Init(apiKey string) *API {
 	return &API{apikey: apiKey}
+}
+
+// InitAccount CinemaCC to set API value
+func InitAccount(passKey string) *Account {
+	return &Account{passkey: passKey}
 }
 
 func getXML(url string) ([]byte, error) {
