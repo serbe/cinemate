@@ -1,37 +1,54 @@
 # cinemate
 Реализация API v2 сайта сinemate.cc на языке Go.
 
-Установка
----------
+## Установка
 
+``` sh
 go get github.com/serbe/cinemate
+```
 
-Использование:
---------------
+## Использование:
 
 **Инициализация:**
 
+``` go
 import (
 	"fmt"
 	"github.com/serbe/cinemate"
 )
 
 c := cinemate.Init("ваш ключ API")
+```
 
-**Получить подробную информацию о персоне:**
+**Получить подробную информацию о персоне (актере/режиссере):**
 
+```go
 person, _ := c.GetPerson(68675)
-fmt.Println(person[0].Name)
+fmt.Println(person.Name)
 
--> Джейк Джилленхол
+> Джейк Джилленхол
+```
 
 **Получить подробную информацию о фильме:**
 
-movie, _ := c.GetMovie(68675)
-fmt.Println(movie[0].TitleRussian)
-fmt.Println(movie[0].Imdb.Rating)
+``` go
+movies, _ := c.GetMovie(68675)
+fmt.Println(movies[0].TitleRussian)
+fmt.Println(movies[0].Imdb.Rating)
 
--> Криминальная фишка от Генри
--> 6.0
+> Криминальная фишка от Генри
+> 6.0
+
+```
+
+**Получить статистику сайта за последние сутки:**
+
+``` go
+stats, _ := cinemate.GetStatsNew()
+fmt.Println(stats.UsersCount)
+
+> 4
+
+```
 
 Подробные примеры находятся в каталоге [examples](https://github.com/serbe/cinemate/examples).
