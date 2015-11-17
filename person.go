@@ -12,7 +12,7 @@ import (
 // apikey ключ разработчика
 // id     ID персоны
 // format необязательный параметр формата возвращаемых сервером данных: xml (по умолчанию) или json
-func (api *API) GetPerson(id int) (person Person, err error) {
+func (api *API) GetPerson(id int64) (person Person, err error) {
 	time.Sleep(1 * time.Second)
 	var result APIResponse
 	var u url.URL
@@ -21,7 +21,7 @@ func (api *API) GetPerson(id int) (person Person, err error) {
 	u.Path = "/person"
 	q := u.Query()
 	q.Set("apikey", api.apikey)
-	q.Set("id", strconv.Itoa(id))
+	q.Set("id", strconv.FormatInt(id, 10))
 	q.Set("format", "xml")
 	u.RawQuery = q.Encode()
 	xmlBody, err := getXML(u.String())
@@ -40,7 +40,7 @@ func (api *API) GetPerson(id int) (person Person, err error) {
 // apikey ключ разработчика
 // id     ID персоны
 // format необязательный параметр формата возвращаемых сервером данных: xml (по умолчанию) или json
-func (api *API) GetPersonMovies(id int) (persons []Person, err error) {
+func (api *API) GetPersonMovies(id int64) (persons []Person, err error) {
 	time.Sleep(1 * time.Second)
 	var result APIResponse
 	var u url.URL
@@ -49,7 +49,7 @@ func (api *API) GetPersonMovies(id int) (persons []Person, err error) {
 	u.Path = "/person.movies"
 	q := u.Query()
 	q.Set("apikey", api.apikey)
-	q.Set("id", strconv.Itoa(id))
+	q.Set("id", strconv.FormatInt(id, 10))
 	q.Set("format", "xml")
 	u.RawQuery = q.Encode()
 	xmlBody, err := getXML(u.String())

@@ -46,13 +46,13 @@ type APIResponse struct {
 // cast                список актеров фильма, представленный списком тегов name с русским именами актеров и ID персоны
 // url                 ссылка на страницу фильма
 type Movie struct {
-	ID                int      `xml:"id,omitempty"`
+	ID                int64    `xml:"id,omitempty"`
 	Type              string   `xml:"type,omitempty"`
 	TitleRussian      string   `xml:"title_russian"`
 	TitleOriginal     string   `xml:"title_original"`
 	TitleEnglish      string   `xml:"title_english,omitempty"`
-	Year              int      `xml:"year,omitempty"`
-	Runtime           int      `xml:"runtime,omitempty"`
+	Year              int64    `xml:"year,omitempty"`
+	Runtime           int64    `xml:"runtime,omitempty"`
 	Poster            image    `xml:"poster,omitempty"`
 	URL               string   `xml:"url,omitempty"`
 	Imdb              rating   `xml:"imdb,omitempty"`
@@ -79,7 +79,7 @@ type urlStruct struct {
 
 type rating struct {
 	Rating float64 `xml:"rating,attr"`
-	Votes  int     `xml:"votes,attr"`
+	Votes  int64   `xml:"votes,attr"`
 }
 
 type country struct {
@@ -97,7 +97,7 @@ type genre struct {
 // photo         включает в себя 3 тега со ссылками на фотографии разных размеров
 // url           ссылка на страницу персоны
 type Person struct {
-	ID           int          `xml:"id,omitempty"`
+	ID           int64        `xml:"id,omitempty"`
 	Name         string       `xml:"name,omitempty"`
 	NameOriginal string       `xml:"name_original,omitempty"`
 	Photo        image        `xml:"photo,omitempty"`
@@ -146,22 +146,22 @@ type Account struct {
 // subscription_count      общее число подписок в ленте обновлений
 type AccountProfile struct {
 	Username              string `xml:"username"`
-	Reputation            int    `xml:"reputation"`
-	ReviewCount           int    `xml:"review_count"`
-	GoldBadges            int    `xml:"gold_badges"`
-	SilverBadges          int    `xml:"silver_badges"`
-	BronzeBadges          int    `xml:"bronze_badges"`
-	UnreadPmCount         int    `xml:"unread_pm_count"`
-	UnreadForumCount      int    `xml:"unread_forum_count"`
-	UnreadUpdatelistCount int    `xml:"unread_updatelist_count"`
-	SubscriptionCount     int    `xml:"subscription_count"`
+	Reputation            int64  `xml:"reputation"`
+	ReviewCount           int64  `xml:"review_count"`
+	GoldBadges            int64  `xml:"gold_badges"`
+	SilverBadges          int64  `xml:"silver_badges"`
+	BronzeBadges          int64  `xml:"bronze_badges"`
+	UnreadPmCount         int64  `xml:"unread_pm_count"`
+	UnreadForumCount      int64  `xml:"unread_forum_count"`
+	UnreadUpdatelistCount int64  `xml:"unread_updatelist_count"`
+	SubscriptionCount     int64  `xml:"subscription_count"`
 }
 
 // UpdateList Записи ленты обновлений пользователя
 // count число всех записей в ленте обновлений (новый)
 // item  запись ленты обновлений
 type UpdateList struct {
-	Count int              `xml:"count"`
+	Count int64            `xml:"count"`
 	Items []updateListItem `xml:"item"`
 }
 
@@ -175,7 +175,7 @@ type updateListItem struct {
 	Date        string           `xml:"date"`
 	Description string           `xml:"description"`
 	URL         string           `xml:"url"`
-	New         int              `xml:"new"`
+	New         int64            `xml:"new"`
 	ForObject   updateListObject `xml:"for_object"`
 }
 
@@ -188,7 +188,7 @@ type updateListObject struct {
 // title	строковое представление объекта
 // url	ссылка на объект обновления
 type updateListItemObject struct {
-	ID    int    `xml:"id"`
+	ID    int64  `xml:"id"`
 	Title string `xml:"title"`
 }
 
@@ -217,10 +217,10 @@ type watchListObject struct {
 // comments_count число новых комментариев к отзывам
 // movies_count   число новых фильмов
 type Stats struct {
-	UsersCount    int `xml:"users_count"`
-	ReviewsCount  int `xml:"reviews_count"`
-	CommentsCount int `xml:"comments_count"`
-	MoviesCount   int `xml:"movies_count"`
+	UsersCount    int64 `xml:"users_count"`
+	ReviewsCount  int64 `xml:"reviews_count"`
+	CommentsCount int64 `xml:"comments_count"`
+	MoviesCount   int64 `xml:"movies_count"`
 }
 
 // Init CinemaCC to set API value

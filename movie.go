@@ -12,7 +12,7 @@ import (
 // apikey ключ разработчика
 // id     ID фильма
 // format необязательный параметр формата возвращаемых сервером данных: xml (по умолчанию) или json
-func (api *API) GetMovie(id int) (movie Movie, err error) {
+func (api *API) GetMovie(id int64) (movie Movie, err error) {
 	time.Sleep(1 * time.Second)
 	var result APIResponse
 	var u url.URL
@@ -21,7 +21,7 @@ func (api *API) GetMovie(id int) (movie Movie, err error) {
 	u.Path = "/movie"
 	q := u.Query()
 	q.Set("apikey", api.apikey)
-	q.Set("id", strconv.Itoa(id))
+	q.Set("id", strconv.FormatInt(id, 10))
 	q.Set("format", "xml")
 	u.RawQuery = q.Encode()
 	xmlBody, err := getXML(u.String())
