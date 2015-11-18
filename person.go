@@ -29,7 +29,9 @@ func (api *API) GetPerson(id int64) (person Person, err error) {
 		return
 	}
 	err = xml.Unmarshal(xmlBody, &result)
-	person = result.Persons[0]
+	if len(result.Persons[0]) > 0 {
+		person = result.Persons[0]
+	}
 	return
 }
 
