@@ -3,7 +3,6 @@ package cinemate
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -239,7 +238,6 @@ func getXML(url string) ([]byte, error) {
 		return []byte{}, err
 	}
 	if resp.StatusCode != 200 {
-		log.Println(resp.Header)
 		return []byte{}, fmt.Errorf("Status Code %d received from cinemate.cc", resp.StatusCode)
 	}
 	defer resp.Body.Close()
