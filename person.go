@@ -2,6 +2,7 @@ package cinemate
 
 import (
 	"encoding/xml"
+	"fmt"
 	"net/url"
 	"strconv"
 	"time"
@@ -29,8 +30,9 @@ func (api *API) GetPerson(id int64) (person Person, err error) {
 		return
 	}
 	err = xml.Unmarshal(xmlBody, &result)
-	if len(result.Persons) > 0 {
-		person = result.Persons[0]
+	person = result.Persons[0]
+	if person.ID == 0 {
+		err = fmt.Errorf("Person not found")
 	}
 	return
 }
@@ -60,6 +62,9 @@ func (api *API) GetPersonMovies(id int64) (persons []Person, err error) {
 	}
 	err = xml.Unmarshal(xmlBody, &result)
 	persons = result.Persons
+	if persons[0].ID == 0 {
+		err = fmt.Errorf("Persons not found")
+	}
 	return
 }
 
@@ -86,5 +91,8 @@ func (api *API) GetPersonSearch(term string) (persons []Person, err error) {
 	}
 	err = xml.Unmarshal(xmlBody, &result)
 	persons = result.Persons
+	if persons[0].ID == 0 {
+		err = fmt.Errorf("Persons not found")
+	}
 	return
 }
