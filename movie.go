@@ -29,7 +29,9 @@ func (api *API) GetMovie(id int64) (movie Movie, err error) {
 		return
 	}
 	err = xml.Unmarshal(xmlBody, &result)
-	movie = result.Movies[0]
+	if len(result.Movies) > 0 {
+		movie = result.Movies[0]
+	}
 	return
 }
 
