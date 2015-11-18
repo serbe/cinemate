@@ -50,5 +50,3 @@ fmt.Println(stats.UsersCount)
 > 4
 
 ```
-
-Подробные примеры находятся в каталоге [examples](https://github.com/serbe/cinemate/examples).
