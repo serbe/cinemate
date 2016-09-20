@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	apiURL = "http://http://api.cinemate.cc"
+	apiURL = "http://api.cinemate.cc"
 )
 
 // API with apikey for use api.cinemate.cc
@@ -15,7 +15,7 @@ type API struct {
 	apikey string
 }
 
-// Response from api.cinemate.cc
+// APIResponse - Response from api.cinemate.cc
 type APIResponse struct {
 	Movies  []Movie  `xml:"movie,omitempty"`
 	Persons []Person `xml:"person,omitempty"`
@@ -132,7 +132,7 @@ type Account struct {
 	passkey string
 }
 
-// AccountResponse is response account api from server
+// AccountProfile is response account api from server
 // username                логин пользователя
 // reputation              репутация пользователя
 // review_count            количество отзывов
@@ -233,6 +233,7 @@ func InitAccount(passKey string) *Account {
 }
 
 func getXML(url string) ([]byte, error) {
+	fmt.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return []byte{}, err
