@@ -1,6 +1,7 @@
 package cinemate
 
 import (
+	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -21,7 +22,14 @@ type APIResponse struct {
 	Persons []Person `xml:"person,omitempty"`
 }
 
-// Movie is responce movie api from server. Now parse only xml
+// APIErrorResponse - Error response from api.cinemate.cc
+type APIErrorResponse struct {
+	XMLName xml.Name `xml:"error"`
+	Error   string   `xml:"error,omitempty"`
+	Code    int64    `xml:"code,omitempty"`
+}
+
+// Movie is response movie api from server. Now parse only xml
 // id                  ID фильма
 // type                Тип фильма
 // title_russian       русскоязычное название фильма
@@ -89,7 +97,7 @@ type genre struct {
 	Name []string `xml:"name,omitempty"`
 }
 
-// Person is responce person api from server. Now parse only xml
+// Person is response person api from server. Now parse only xml
 // id            ID персоны
 // name          русскоязычное имя персоны
 // name_original имя персоны в оригинале
@@ -128,8 +136,10 @@ type CCRequest struct {
 }
 
 // Account with passkey for access to account
+// Passkey - PASSKEY пользователя
 type Account struct {
-	passkey string
+	XMLName xml.Name `xml:"response"`
+	Passkey string   `xml:"passkey,omitempty"`
 }
 
 // AccountProfile is response account api from server
@@ -229,7 +239,7 @@ func Init(apiKey string) *API {
 
 // InitAccount CinemaCC to set API value
 func InitAccount(passKey string) *Account {
-	return &Account{passkey: passKey}
+	return &Account{Passkey: passKey}
 }
 
 func getXML(url string) ([]byte, error) {

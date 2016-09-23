@@ -27,6 +27,9 @@ func GetAccountAuth(username string, password string) (passkey string, err error
 		return
 	}
 	err = xml.Unmarshal(xmlBody, &result)
+	if err == nil {
+		passkey = result.Passkey
+	}
 	return
 }
 
@@ -41,7 +44,7 @@ func (acc *Account) GetAccountProfile() (profile AccountProfile, err error) {
 	u.Host = "api.cinemate.cc"
 	u.Path = "/account.profile"
 	q := u.Query()
-	q.Set("passkey", acc.passkey)
+	q.Set("passkey", acc.Passkey)
 	q.Set("format", "xml")
 	u.RawQuery = q.Encode()
 	xmlBody, err := getXML(u.String())
@@ -65,7 +68,7 @@ func (acc *Account) GetAccountUpdateList(newonly ...bool) (list UpdateList, err 
 	u.Host = "api.cinemate.cc"
 	u.Path = "/account.updatelist"
 	q := u.Query()
-	q.Set("passkey", acc.passkey)
+	q.Set("passkey", acc.Passkey)
 	if len(newonly) > 0 {
 		if newonly[0] == false {
 			newOnlyInt = 0
@@ -93,7 +96,7 @@ func (acc *Account) GetAccountWatchlist() (list WatchList, err error) {
 	u.Host = "api.cinemate.cc"
 	u.Path = "/account.watchlist"
 	q := u.Query()
-	q.Set("passkey", acc.passkey)
+	q.Set("passkey", acc.Passkey)
 	q.Set("format", "xml")
 	u.RawQuery = q.Encode()
 	xmlBody, err := getXML(u.String())
